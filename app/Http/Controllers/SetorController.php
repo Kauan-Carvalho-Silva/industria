@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Setor;
+use Illuminate\Support\Facades\Auth;
 
 class SetorController extends Controller
 {
@@ -34,7 +35,10 @@ class SetorController extends Controller
      */
     public function store(Request $request)
     {
-        Setor::create($request->only('nome'));
+        Setor::create([
+            'nome' => $request->only('nome'),
+            'criado_por_usuario_id' => auth()->id(),
+        ]);
         return redirect()->route('setores.index');
     }
 
@@ -70,11 +74,13 @@ class SetorController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
-    {
-        $setor = Setor::find($id);
-        $setor->delete();
-        return redirect()->route('setores.index');
-    }
+{
+    $setor = Setor::findOrFail($id);
+    $setor->delete();
+
+    return redirect()->route('setores.index');
+}
+
 
 
     public function ativarDesativar(string $id)

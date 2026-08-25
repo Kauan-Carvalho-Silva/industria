@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EquipamentoController;
 use App\Http\Controllers\SetorController;
 use App\Http\Controllers\FuncionarioController;
+use App\Http\Controllers\ChamadoController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -20,10 +21,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('equipamentos', EquipamentoController::class);
     Route::resource('setores', SetorController::class);
-    Route::resource('funcionarios', FuncionarioController::class);
-    Route::patch('/setor/{id}/status',[SetorController::class,'ativarDesativar'])->name('setor.ativar-desativar');
+    Route::resource('chamados', ChamadoController::class);
 });
 
-
+Route::resource('funcionarios', FuncionarioController::class);
+    Route::patch('/setor/{id}/status',[SetorController::class,'ativarDesativar'])->name('setor.ativar-desativar');
 
 require __DIR__.'/auth.php';
