@@ -6,6 +6,8 @@ use App\Http\Controllers\EquipamentoController;
 use App\Http\Controllers\SetorController;
 use App\Http\Controllers\FuncionarioController;
 use App\Http\Controllers\ChamadoController;
+use App\Http\Controllers\ManutencaoController;
+use App\Http\Controllers\OrdemProducaoController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,6 +24,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('equipamentos', EquipamentoController::class);
     Route::resource('setores', SetorController::class);
     Route::resource('chamados', ChamadoController::class);
+    Route::resource('manutencoes', ManutencaoController::class)->parameters(['manutencoes' => 'manutencao']);
+    Route::resource('ordens_producao', OrdemProducaoController::class);
 });
 
 Route::resource('funcionarios', FuncionarioController::class);
