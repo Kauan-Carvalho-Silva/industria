@@ -2,24 +2,72 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\Equipamento;
 use App\Models\Setor;
-use Illuminate\Http\Request;
 
 class EquipamentoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $equipamentos = Equipamento::all();
+        $equipamentos = Equipamento::where('id', '>', 0);
 
-        return view('equipamentos.index', compact('equipamentos'));
+        if ($request->filled('nome')) {
+            $equipamentos = $equipamentos->where(
+                'nome',
+                'like',
+                '%' . $request->nome . '%'
+            );
+        }
+
+        if ($request->filled('status')) {
+            $equipamentos = $equipamentos->where(
+                'status',
+                $request->status
+            );
+        }
+
+        if ($request->filled('setor_id')) {
+            $equipamentos = $equipamentos->where(
+                'setor_id',
+                $request->setor_id
+            );
+        }
+
+        if ($request->filled('patrimonio')) {
+            $equipamentos = $equipamentos->where(
+                'patrimonio',
+                'like',
+                '%' . $request->patrimonio . '%'
+            );
+        }
+
+        $equipamentos = $equipamentos->get();
+
+        $setores = Setor::all();
+
+        $setorSelecionado = $request->filled('setor_id')
+            ? Setor::find($request->setor_id)
+            : null;
+
+        return view(
+            'equipamentos.index',
+            compact(
+                'equipamentos',
+                'setores',
+                'setorSelecionado'
+            )
+        );
     }
 
     public function create()
     {
         $setores = Setor::all();
 
-        return view('equipamentos.create', compact('setores'));
+        return view(
+            'equipamentos.create',
+            compact('setores')
+        );
     }
 
     public function store(Request $request)
@@ -45,7 +93,10 @@ class EquipamentoController extends Controller
     {
         $setores = Setor::all();
 
-        return view('equipamentos.edit', compact('equipamento', 'setores'));
+        return view(
+            'equipamentos.edit',
+            compact('equipamento', 'setores')
+        );
     }
 
     public function update(Request $request, Equipamento $equipamento)

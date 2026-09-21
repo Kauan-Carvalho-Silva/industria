@@ -1,8 +1,24 @@
 @extends('Layouts.app')
 @section('title', 'Lista de setores')
 @section('content')
- 
+<div class="text-center">
 <h1>Lista de setores para {{ Auth::user()->name }}</h1>
+<form action="{{ route('setores.index') }}" method="get">
+@csrf
+    <div class="d-flex">
+        <label for="id">ID:</label>
+        <input type="text" name="id" id="id">
+        <label for="nome">Nome:</label>
+        <input type="text" name="nome" id="nome">
+        <label for="ativo">Status:</label>
+        <select name="ativo" id="ativo">
+            <option value="">Todos</option>
+            <option value="1">Ativado</option>
+            <option value="0">Desativado</option>
+        </select>
+        <button class="btn btn-success" type="submit">Buscar</button>
+    </div>
+</form> 
 <a class="btn btn-primary" href="{{ route('setores.create')}}" role="button">Novo</a>
 <table class="table">
 <thead class="table-info">

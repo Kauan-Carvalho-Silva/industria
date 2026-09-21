@@ -11,9 +11,18 @@ class SetorController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $setores = Setor::all();
+        if($request->id){
+            $setores = Setor::where('id', $request->id)->get();
+        }
+        if($request->nome){
+            $setores = Setor::where('nome', 'like', '%' . $request->nome . '%')->get();
+        }
+        if($request->ativo !== null && $request->ativo !== ''){
+            $setores = Setor::where('ativo', $request->ativo)->get();
+        }
         return view('setores.index', compact('setores'));
     }
 

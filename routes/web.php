@@ -8,6 +8,8 @@ use App\Http\Controllers\FuncionarioController;
 use App\Http\Controllers\ChamadoController;
 use App\Http\Controllers\ManutencaoController;
 use App\Http\Controllers\OrdemProducaoController;
+use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\TarefasController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -26,6 +28,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('chamados', ChamadoController::class);
     Route::resource('manutencoes', ManutencaoController::class)->parameters(['manutencoes' => 'manutencao']);
     Route::resource('ordens_producao', OrdemProducaoController::class);
+    Route::resource('usuarios', UsuarioController::class);
+    Route::resource('tarefas', TarefasController::class);
 });
 
 Route::resource('funcionarios', FuncionarioController::class);
